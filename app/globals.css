@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+    font-family: monospace;
+}
+
+
+/* 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f2f3f4;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-marquee {
+    display: flex;
+    animation: marquee 27s linear infinite;
+}

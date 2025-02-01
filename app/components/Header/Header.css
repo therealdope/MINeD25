@@ -1,0 +1,17 @@
+.navbar-nav a {
+    text-decoration: none;
+}
+
+.navbar-nav a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: rgb(45, 139, 239);
+    transition: width .3s;
+}
+
+.navbar-nav a:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
