@@ -80,8 +80,8 @@ const InputForm = ({ formData, handleInputChange, handleSubmit }) => {
         <option value="">Select Duration in Minutes</option>
         <option value="Very Short">1 min</option>
         <option value="Short">3 min</option>
-        <option value="Intermediate" disabled={!formData.isSubscribed}>5 min (Subscription required)</option>
-        <option value="Long" disabled={!formData.isSubscribed}>10 min (Subscription required)</option>
+        <option value="Intermediate">5 min (Subscription required)</option>
+        <option value="Long">10 min (Subscription required)</option>
       </select>
 
       </div>
