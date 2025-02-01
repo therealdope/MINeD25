@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import FileUpload from './FileUpload';
-import InputForm from './InputForm';
-import Result from './Result';
+import React, { useState } from "react";
+import FileUpload from "./FileUpload";
+import InputForm from "./InputForm";
+import Result from "./Result";
 
 const Paper = () => {
   const [formData, setFormData] = useState({
-    ageRange: '',
-    occupation: '',
-    otherOccupation: '',
-    knowledgeLevel: '',
-    duration: '',
+    ageRange: "",
+    occupation: "",
+    otherOccupation: "",
+    knowledgeLevel: "",
+    duration: "",
   });
 
   const [uploaded, setUploaded] = useState(false);
-  const [fileName, setFileName] = useState('');
-  const [fileSize, setFileSize] = useState(0);
+  const [file, setFile] = useState(null); // Store actual file instead of just file name
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (e) => {
@@ -27,14 +26,13 @@ const Paper = () => {
 
   const handleRemoveFile = () => {
     setUploaded(false);
-    setFileName('');
-    setFileSize(0);
+    setFile(null);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!uploaded || !fileName) {
-      alert('Please upload a PDF file before submitting.');
+    if (!uploaded || !file) {
+      alert("Please upload a PDF file before submitting.");
       return;
     }
     setSubmitted(true);
@@ -47,8 +45,10 @@ const Paper = () => {
         <div className="text-[1.3rem] text-blue-600 hover:text-pink-600">
           <a href="/">Deadline Disco</a>
         </div>
-        <div className="">
-          <h1 className="text-center text-xl text-pink-600 font-extrathin underline">Podcast Generator</h1>
+        <div>
+          <h1 className="text-center text-xl text-pink-600 font-extrathin underline">
+            Podcast Generator
+          </h1>
         </div>
       </nav>
 
@@ -57,10 +57,8 @@ const Paper = () => {
         <FileUpload
           uploaded={uploaded}
           setUploaded={setUploaded}
-          fileName={fileName}
-          setFileName={setFileName}
-          fileSize={fileSize}
-          setFileSize={setFileSize}
+          file={file}
+          setFile={setFile} // Pass actual file
           handleRemoveFile={handleRemoveFile}
         />
         <div className="w-full md:w-1/2">
@@ -71,7 +69,7 @@ const Paper = () => {
       {/* Results */}
       <div className="mt-10 p-4">
         <div className="border-gray-400 border-b mb-6"></div>
-        {submitted && <Result fileName={fileName} formData={formData} />}
+        {submitted && <Result file={file} formData={formData} />}
       </div>
     </div>
   );

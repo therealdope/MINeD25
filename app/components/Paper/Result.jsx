@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Result = ({ fileName, formData }) => {
+const Result = ({ file, formData }) => {
   const [loading, setLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState(null);
   const [error, setError] = useState(null);
 
   const handleGenerateAudio = async () => {
-    if (!fileName) {
+    if (!file) {
       alert("Please upload a PDF file first.");
       return;
     }
@@ -17,22 +17,34 @@ const Result = ({ fileName, formData }) => {
 
     try {
       const formDataObj = new FormData();
-      formDataObj.append("pdf_file", fileName);
+      formDataObj.append("pdf_file", file); // Sending actual file
       formDataObj.append("age_range", formData.ageRange);
       formDataObj.append("occupation", formData.occupation);
       formDataObj.append("knowledge_level", formData.knowledgeLevel);
       formDataObj.append("duration", formData.duration);
 
-      const response = await axios.post("https://your-aws-api-url/process_pdf", formDataObj, {
-        headers: { "Content-Type": "multipart/form-data" },
-        responseType: "blob", // Ensures we get a file response
-      });
+      const response = await axios.post(
+        "http://ec2-50-19-41-188.compute-1.amazonaws.com:5000/process_pdf",
+        formDataObj,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          responseType: "blob", // Ensures we get a file response
+        }
+      );
+
+      // Check if response is an error (Flask might return JSON error)
+      const contentType = response.headers["content-type"];
+      if (contentType.includes("application/json")) {
+        const errorText = await response.data.text(); // Read JSON error
+        throw new Error(errorText);
+      }
 
       // Create a URL for the audio file
       const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioUrl(audioUrl);
     } catch (err) {
+      console.error("Audio Generation Error:", err);
       setError("Failed to generate the audio. Please try again.");
     } finally {
       setLoading(false);
