@@ -24,7 +24,7 @@ const Result = ({ file, formData }) => {
       formDataObj.append("duration", formData.duration);
 
       const response = await axios.post(
-        "http://ec2-50-19-41-188.compute-1.amazonaws.com:5000/process_pdf",
+        "https://ec2-50-19-41-188.compute-1.amazonaws.com:5000/process_pdf",
         formDataObj,
         {
           headers: { "Content-Type": "multipart/form-data" },
